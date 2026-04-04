@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Guia de estudo para entrevistas técnicas — Java, Angular, Arquitetura, DevOps">
+<title>Dev Interview Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --surface3: #222222;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0ede8;
+  --text2: #9a9690;
+  --text3: #5a5855;
+  --accent: #c8f060;
+  --accent2: #60c8f0;
+  --accent3: #f060c8;
+  --java: #ff9640;
+  --angular: #ff4069;
+  --arch: #6080ff;
+  --devops: #40d080;
+  --eng: #c060ff;
+  --font-head: 'Syne', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --r: 10px;
+  --r-lg: 16px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-head);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── NOISE TEXTURE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HEADER ─── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+}
+
+.header-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  gap: 12px;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.logo span { color: var(--text3); }
+
+.progress-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text2);
+  white-space: nowrap;
+}
+.progress-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ─── NAV TABS ─── */
+.nav-wrap {
+  position: sticky;
+  top: 56px;
+  z-index: 99;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-tabs {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+  gap: 2px;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+
+.nav-tab {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+  letter-spacing: 0.02em;
+}
+.nav-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.nav-tab:hover:not(.active) { color: var(--text2); }
+
+/* ─── MAIN ─── */
+.main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px calc(var(--safe-b) + 80px);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── SECTIONS ─── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 32px 0 24px;
+}
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  border: 1px solid rgba(200,240,96,0.3);
+  border-radius: 100px;
+  padding: 4px 12px;
+  margin-bottom: 20px;
+  letter-spacing: 0.08em;
+}
+.hero-title {
+  font-size: clamp(28px, 8vw, 48px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+.hero-sub {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  max-width: 480px;
+  font-weight: 400;
+}
+
+/* ─── STATS ROW ─── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 24px 0;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px 12px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ─── ROADMAP PHASES ─── */
+.phase-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.phase-card:hover { border-color: var(--border2); }
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.phase-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.p1 .phase-num { background: rgba(255,150,64,0.15); color: var(--java); }
+.p2 .phase-num { background: rgba(96,128,255,0.15); color: var(--arch); }
+.p3 .phase-num { background: rgba(64,208,128,0.15); color: var(--devops); }
+.p4 .phase-num { background: rgba(192,96,255,0.15); color: var(--eng); }
+
+.phase-info { flex: 1; min-width: 0; }
+.phase-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.phase-meta { font-size: 12px; color: var(--text3); font-family: var(--font-mono); }
+.phase-arrow {
+  font-size: 12px; color: var(--text3);
+  transition: transform .25s;
+  flex-shrink: 0;
+}
+.phase-header.open .phase-arrow { transform: rotate(180deg); }
+
+.phase-body {
+  display: none;
+  padding: 0 16px 16px;
+}
+.phase-body.open { display: block; }
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 380px) { .skills-grid { grid-template-columns: 1fr; } }
+
+.skill-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px;
+}
+.skill-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 3px 7px;
+  margin-bottom: 8px;
+}
+.tag-java { background: rgba(255,150,64,0.15); color: var(--java); }
+.tag-angular { background: rgba(255,64,105,0.15); color: var(--angular); }
+.tag-arch { background: rgba(96,128,255,0.15); color: var(--arch); }
+.tag-devops { background: rgba(64,208,128,0.15); color: var(--devops); }
+.tag-eng { background: rgba(192,96,255,0.15); color: var(--eng); }
+.tag-spring { background: rgba(255,150,64,0.15); color: var(--java); }
+.tag-quarkus { background: rgba(255,150,64,0.1); color: #ffb870; }
+.tag-security { background: rgba(96,128,255,0.1); color: #a0c0ff; }
+
+.skill-name { font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.skill-desc { font-size: 12px; color: var(--text2); line-height: 1.5; font-weight: 400; }
+
+/* ─── CAT FILTER ─── */
+.cat-filters {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  gap: 6px;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+}
+.cat-filters::-webkit-scrollbar { display: none; }
+
+.cat-btn {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: none;
+  font-family: var(--font-head);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.cat-btn.active-all { border-color: var(--accent); color: var(--accent); background: rgba(200,240,96,0.08); }
+.cat-btn.active-java { border-color: var(--java); color: var(--java); background: rgba(255,150,64,0.08); }
+.cat-btn.active-angular { border-color: var(--angular); color: var(--angular); background: rgba(255,64,105,0.08); }
+.cat-btn.active-arch { border-color: var(--arch); color: var(--arch); background: rgba(96,128,255,0.08); }
+.cat-btn.active-devops { border-color: var(--devops); color: var(--devops); background: rgba(64,208,128,0.08); }
+.cat-btn.active-eng { border-color: var(--eng); color: var(--eng); background: rgba(192,96,255,0.08); }
+.cat-btn:hover:not(.active-all):not(.active-java):not(.active-angular):not(.active-arch):not(.active-devops):not(.active-eng) {
+  color: var(--text2); border-color: var(--border2);
+}
+
+/* ─── PROGRESS BAR ─── */
+.prog-bar-wrap {
+  height: 3px;
+  background: var(--surface2);
+  border-radius: 2px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.prog-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  transition: width .4s ease;
+}
+.prog-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 16px;
+}
+
+/* ─── QUESTION CARDS ─── */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.q-card.answered { border-color: rgba(200,240,96,0.15); }
+.q-card:hover { border-color: var(--border2); }
+
+.q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.q-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text3);
+  min-width: 20px;
+  padding-top: 2px;
+  font-weight: 700;
+}
+.q-text-wrap { flex: 1; min-width: 0; }
+.q-text {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.q-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 2px 7px;
+}
+.badge-Java { background: rgba(255,150,64,0.15); color: var(--java); }
+.badge-Angular { background: rgba(255,64,105,0.15); color: var(--angular); }
+.badge-Arquitetura { background: rgba(96,128,255,0.15); color: var(--arch); }
+.badge-DevOps { background: rgba(64,208,128,0.15); color: var(--devops); }
+.badge-Engenharia { background: rgba(192,96,255,0.15); color: var(--eng); }
+
+.q-chevron {
+  font-size: 10px;
+  color: var(--text3);
+  transition: transform .25s;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+.q-chevron.open { transform: rotate(180deg); }
+.check-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity .2s;
+  padding-top: 1px;
+}
+.q-card.answered .check-icon { opacity: 1; }
+
+.q-answer {
+  display: none;
+  padding: 0 16px 16px 48px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text2);
+  font-weight: 400;
+  border-top: 1px solid var(--border);
+}
+.q-answer.open { display: block; padding-top: 14px; }
+.q-answer strong { color: var(--text); font-weight: 700; font-family: var(--font-head); }
+.q-answer code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--surface3);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--accent2);
+  word-break: break-all;
+}
+.q-answer ul { padding-left: 18px; margin: 8px 0; }
+.q-answer ol { padding-left: 18px; margin: 8px 0; }
+.q-answer li { margin-bottom: 5px; }
+.q-answer br { display: block; content: ''; margin-top: 6px; }
+
+/* ─── TIPS ─── */
+.tips-header {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.tip-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px 0 0 2px;
+}
+.tip-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.tip-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.tip-body { font-size: 13px; color: var(--text2); line-height: 1.7; font-weight: 400; }
+.tip-body strong { color: var(--text); font-weight: 700; }
+
+/* ─── BOTTOM PROGRESS (fixed) ─── */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 12px 16px calc(var(--safe-b) + 12px);
+  background: rgba(10,10,10,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  display: none;
+}
+.bottom-bar.visible { display: block; }
+.bottom-bar-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bottom-pct {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 44px;
+}
+.bottom-prog-wrap {
+  flex: 1;
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.bottom-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  transition: width .4s ease;
+}
+.bottom-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+/* ─── RESET BTN ─── */
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 16px;
+}
+.reset-btn:hover { border-color: var(--angular); color: var(--angular); }
+
+/* ─── SECTION TITLE ─── */
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.section.active { animation: fadeUp .25s ease; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+/* ─── MOBILE TOUCH ─── */
+@media (hover: none) {
+  .q-card:hover, .phase-card:hover { border-color: var(--border); }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">DEV<span>/</span>PREP</div>
+    <div class="progress-pill">
+      <div class="progress-dot"></div>
+      <span id="header-prog">0 / 50</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-wrap">
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showTab('home',this)">Início</button>
+    <button class="nav-tab" onclick="showTab('roadmap',this)">Roadmap</button>
+    <button class="nav-tab" onclick="showTab('quiz',this)">50 Perguntas</button>
+    <button class="nav-tab" onclick="showTab('tips',this)">Dicas</button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ── HOME ── -->
+  <section id="home" class="section active">
+    <div class="hero">
+      <div class="hero-tag">✦ Fullstack Java + Angular</div>
+      <h1 class="hero-title">Domine sua próxima <em>entrevista técnica</em></h1>
+      <p class="hero-sub">Roadmap estruturado e 50 perguntas reais com respostas detalhadas. Estude no celular, a qualquer hora.</p>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-num">50</span>
+        <span class="stat-label">Perguntas</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Categorias</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="home-answered">0</span>
+        <span class="stat-label">Revisadas</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:8px;">
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="home-prog-bar" style="width:0%"></div></div>
+      <div class="prog-label" id="home-prog-label">Nenhuma pergunta revisada ainda</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px;">
+      <button class="nav-quick" onclick="showTab('roadmap', document.querySelectorAll('.nav-tab')[1])" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 14px;text-align:left;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="font-size:22px;margin-bottom:8px;">🗺</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Roadmap</div>
+        <div style="font-size:12px;color:var(--text3);">12 semanas de estudo</div>
+      </button>
+      <button onclick="showTab('quiz', document.querySelectorAll('.nav-tab')[2])" style="background:var(--surface);border:1px solid rgba(200,240,96,0.2);border-radius:var(--r-lg);padding:18px 14px;text-align:left;cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='rgba(200,240,96,0.4)'" onmouseout="this.style.borderColor='rgba(200,240,96,0.2)'">
+        <div style="font-size:22px;margin-bottom:8px;">💬</div>
+        <div style="font-size:14px;font-weight:700;color:var(--accent);margin-bottom:4px;">Perguntas</div>
+        <div style="font-size:12px;color:var(--text3);">Simule a entrevista</div>
+      </button>
+    </div>
+
+    <div style="margin-top:12px;">
+      <button onclick="showTab('tips', document.querySelectorAll('.nav-tab')[3])" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:14px;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--border2)'" onmouseout="this.style.borderColor='var(--border)'">
+        <span style="font-size:22px;">💡</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);">Dicas de Entrevista</div>
+          <div style="font-size:12px;color:var(--text3);">Como responder com clareza e segurança</div>
+        </div>
+      </button>
+    </div>
+
+    <div style="margin-top:28px;padding:16px;background:var(--surface2);border-radius:var(--r);border:1px solid var(--border);">
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">💾 Dica de uso</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6;font-weight:400;">No iPhone/Android, adicione essa página à tela inicial: compartilhe → "Adicionar à tela inicial". Funciona offline como um app.</p>
+    </div>
+  </section>
+
+  <!-- ── ROADMAP ── -->
+  <section id="roadmap" class="section">
+    <div class="section-eyebrow">Plano de estudos · 12 semanas</div>
+
+    <div class="phase-card p1">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">01</div>
+        <div class="phase-info">
+          <div class="phase-name">Fundamentos sólidos</div>
+          <div class="phase-meta">Semanas 1–3 · Java core</div>
+        </div>
+        <span class="phase-arrow">▼</span>
+      </div>
+      <div class="phase-body open">
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-tag tag-java">Java</div>
+            <div class="skill-name">Java Core</div>
+            <div class="skill-desc">JVM, GC, threads, streams, Optional, generics, collections internals</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-java">Java</div>
+            <div class="skill-name">Concorrência</div>
+            <div class="skill-desc">synchronized, locks, CompletableFuture, virtual threads (Java 21)</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-arch">Arquitetura</div>
+            <div class="skill-name">SOLID</div>
+            <div class="skill-desc">Cada princípio com exemplo de código e refatoração prática</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-arch">Arquitetura</div>
+            <div class="skill-name">Design Patterns</div>
+            <div class="skill-desc">Creational, Structural, Behavioral — quando e por quê usar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card p2">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">02</div>
+        <div class="phase-info">
+          <div class="phase-name">Frameworks & Ecosistema</div>
+          <div class="phase-meta">Semanas 4–6 · Spring, Quarkus, Angular</div>
+        </div>
+        <span class="phase-arrow">▼</span>
+      </div>
+      <div class="phase-body">
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-tag tag-spring">Spring</div>
+            <div class="skill-name">Spring Boot internals</div>
+            <div class="skill-desc">IoC, DI, Bean lifecycle, auto-config, AOP, @Transactional</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-quarkus">Quarkus</div>
+            <div class="skill-name">Quarkus vs Spring</div>
+            <div class="skill-desc">Native image, startup time, Panache, CDI, MicroProfile</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-angular">Angular</div>
+            <div class="skill-name">Angular avançado</div>
+            <div class="skill-desc">Change detection, signals, lazy loading, DI hierárquico, RxJS</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-angular">Angular</div>
+            <div class="skill-name">State & Performance</div>
+            <div class="skill-desc">OnPush, TrackBy, NgRx/Signal Store, hydration, SSR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card p3">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">03</div>
+        <div class="phase-info">
+          <div class="phase-name">Arquitetura & Sistemas</div>
+          <div class="phase-meta">Semanas 7–9 · Design de sistemas</div>
+        </div>
+        <span class="phase-arrow">▼</span>
+      </div>
+      <div class="phase-body">
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-tag tag-arch">Arquitetura</div>
+            <div class="skill-name">Microserviços</div>
+            <div class="skill-desc">API Gateway, circuit breaker, saga, event-driven, CQRS</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-arch">Arquitetura</div>
+            <div class="skill-name">Banco de Dados</div>
+            <div class="skill-desc">ACID, N+1, índices, particionamento, NoSQL vs SQL tradeoffs</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-arch">Arquitetura</div>
+            <div class="skill-name">APIs & Integração</div>
+            <div class="skill-desc">REST maturidade, GraphQL, gRPC, Kafka, idempotência</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-security">Segurança</div>
+            <div class="skill-name">Segurança</div>
+            <div class="skill-desc">JWT, OAuth2, OWASP Top 10, autenticação vs autorização</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card p4">
+      <div class="phase-header" onclick="togglePhase(this)">
+        <div class="phase-num">04</div>
+        <div class="phase-info">
+          <div class="phase-name">DevOps & Engenharia</div>
+          <div class="phase-meta">Semanas 10–12 · Cloud, CI/CD, qualidade</div>
+        </div>
+        <span class="phase-arrow">▼</span>
+      </div>
+      <div class="phase-body">
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-tag tag-devops">DevOps</div>
+            <div class="skill-name">Containers & Cloud</div>
+            <div class="skill-desc">Docker multi-stage, Kubernetes (pods/services/HPA), AWS/GCP basics</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-devops">DevOps</div>
+            <div class="skill-name">CI/CD & Observability</div>
+            <div class="skill-desc">Pipelines, blue-green deploy, SLO/SLA, logs estruturados, tracing</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-eng">Engenharia</div>
+            <div class="skill-name">Qualidade de código</div>
+            <div class="skill-desc">TDD, BDD, testes de contrato, code review, métricas</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-tag tag-eng">Engenharia</div>
+            <div class="skill-name">Performance</div>
+            <div class="skill-desc">Profiling, caching (L1/L2/distribuído), async/reactive, bulk ops</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUIZ ── -->
+  <section id="quiz" class="section">
+    <div class="cat-filters" id="cat-filters"></div>
+    <div class="prog-bar-wrap"><div class="prog-bar-fill" id="quiz-prog-bar" style="width:0%"></div></div>
+    <div class="prog-label" id="quiz-prog-label">0 de 50 respondidas</div>
+    <div id="questions-list"></div>
+    <button class="reset-btn" onclick="resetProgress()">↺ Resetar progresso</button>
+  </section>
+
+  <!-- ── TIPS ── -->
+  <section id="tips" class="section">
+    <div class="section-eyebrow">Como responder com clareza e confiança</div>
+
+    <div class="tip-card">
+      <div class="tip-num">01 —</div>
+      <div class="tip-title">Método PREP</div>
+      <div class="tip-body"><strong>P</strong>onto central (1 frase direta) → <strong>R</strong>azão (o porquê) → <strong>E</strong>xemplo concreto do seu trabalho → <strong>P</strong>onto central novamente. Evite entrar em detalhes técnicos antes de estabelecer o conceito principal.</div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--accent2);">
+      <div class="tip-num" style="color:var(--accent2);">02 —</div>
+      <div class="tip-title">Use analogias do mundo real</div>
+      <div class="tip-body">"GC é como um zelador que limpa objetos que ninguém mais usa. O stop-the-world é quando ele pede para todos saírem da sala para limpar de vez." Analogias demonstram entendimento profundo, não decoreba.</div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--angular);">
+      <div class="tip-num" style="color:var(--angular);">03 —</div>
+      <div class="tip-title">Quando não souber a resposta</div>
+      <div class="tip-body">Diga: <strong>"Não trabalhei diretamente com isso, mas pelo que conheço dos conceitos relacionados, acredito que..."</strong> Demonstra honestidade e raciocínio. Nunca invente — o entrevistador percebe.</div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--eng);">
+      <div class="tip-num" style="color:var(--eng);">04 —</div>
+      <div class="tip-title">Conecte ao mundo real</div>
+      <div class="tip-body">Todo conceito deve ter um <strong>"onde isso importou na prática"</strong>. Ex: "Usamos circuit breaker no serviço de pagamentos para evitar cascade failure quando o gateway externo ficava lento."</div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--devops);">
+      <div class="tip-num" style="color:var(--devops);">05 —</div>
+      <div class="tip-title">Treine em voz alta</div>
+      <div class="tip-body">Grave áudios explicando conceitos como se fosse para um colega júnior. Se travar, o conceito ainda não está consolidado. <strong>A entrevista é performance — pratique a performance.</strong></div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--java);">
+      <div class="tip-num" style="color:var(--java);">06 —</div>
+      <div class="tip-title">Perguntas para fazer ao entrevistador</div>
+      <div class="tip-body">
+        "Qual o maior desafio técnico da equipe hoje?"<br>
+        "Como é o processo de code review?"<br>
+        "Qual o nível de cobertura de testes do projeto?"<br><br>
+        <strong>Perguntas boas demonstram maturidade — não são opcionais.</strong>
+      </div>
+    </div>
+
+    <div class="tip-card" style="border-left: 3px solid var(--accent);">
+      <div class="tip-num">07 —</div>
+      <div class="tip-title">Estrutura de resposta para system design</div>
+      <div class="tip-body">1. Confirmar requisitos funcionais e não-funcionais. 2. Estimativa de escala (usuários, requests/s, dados). 3. Componentes de alto nível. 4. Detalhar 1-2 componentes críticos. 5. Trade-offs de cada decisão. <strong>Fale em voz alta enquanto pensa.</strong></div>
+    </div>
+  </section>
+
+</main>
+
+<div class="bottom-bar" id="bottom-bar">
+  <div class="bottom-bar-inner">
+    <span class="bottom-pct" id="bottom-pct">0%</span>
+    <div class="bottom-prog-wrap">
+      <div class="bottom-prog-fill" id="bottom-prog-fill" style="width:0%"></div>
+    </div>
+    <span class="bottom-count" id="bottom-count">0/50</span>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'devprep_answered_v1';
+
+const questions = [
+  {id:1,cat:'Java',q:'Explique como funciona o Garbage Collector na JVM e quais são os principais algoritmos.',a:'<strong>Conceito central:</strong> O GC automaticamente libera memória de objetos que não têm mais referências ativas.<br><br><strong>Como explicar:</strong> A JVM divide a heap em gerações — <code>Young Generation</code> (Eden + Survivor), <code>Old Generation</code> e <code>Metaspace</code>. Objetos começam no Eden; se sobreviverem a um GC Minor, vão para Survivor e eventualmente para Old Gen.<br><br><strong>Algoritmos principais:</strong><ul><li><strong>G1GC</strong> (padrão Java 9+): divide heap em regiões, coleta incrementalmente.</li><li><strong>ZGC / Shenandoah</strong>: pausas &lt; 1ms, ideal para apps de baixa latência.</li><li><strong>Serial / Parallel GC</strong>: apps simples ou batch.</li></ul><strong>Ponto de impacto:</strong> Em Quarkus com native image, o GC é o SubstrateVM GC, diferente da JVM padrão.'},
+  {id:2,cat:'Java',q:'Qual a diferença entre thread virtual (Project Loom) e thread de plataforma? Quando usar cada um?',a:'<strong>Thread de plataforma:</strong> mapeada 1:1 com thread do SO. Custo alto de criação (~1MB de stack). Limite de ~milhares por JVM.<br><br><strong>Thread virtual (Java 21+):</strong> gerenciada pela JVM, montada sobre carrier threads. Criação barata, pode ter milhões simultâneas. Ideal para I/O-bound.<br><br><strong>Quando usar virtual threads:</strong> operações bloqueantes (JDBC, HTTP calls, file I/O). A JVM "desmonta" a virtual thread durante o bloqueio.<br><br><strong>Quando manter threads de plataforma:</strong> código CPU-bound pesado ou libs que não são "virtual-thread-friendly".<br><br><strong>No Quarkus:</strong> <code>@RunOnVirtualThread</code>. Cuidado com pinning (synchronized blocks bloqueiam o carrier).'},
+  {id:3,cat:'Java',q:'O que é um memory leak em Java? Como detectar e onde costumam ocorrer?',a:'<strong>Definição:</strong> Objetos que continuam referenciados mesmo após não serem mais necessários, impedindo o GC de coletá-los.<br><br><strong>Causas comuns:</strong><ul><li>Static collections que crescem sem limite</li><li>Listeners/callbacks registrados e nunca removidos</li><li>ThreadLocal não limpos em ambientes com pool de threads</li><li>Cache sem política de expiração (usar WeakReference ou Caffeine)</li><li>Streams ou connections não fechados (try-with-resources)</li></ul><strong>Detecção:</strong> heap dump via <code>jmap -dump:format=b,file=heap.hprof PID</code>, analisar com Eclipse MAT ou VisualVM.'},
+  {id:4,cat:'Java',q:'Explique o problema de N+1 queries no JPA/Hibernate e como resolvê-lo.',a:'<strong>O problema:</strong> Ao buscar N entidades com relacionamentos lazy, o Hibernate dispara 1 query para a lista + N queries individuais para cada relacionamento. Com 100 registros = 101 queries.<br><br><strong>Soluções:</strong><ul><li><code>JOIN FETCH</code> na JPQL: <code>SELECT u FROM User u JOIN FETCH u.orders</code></li><li><code>@EntityGraph</code> para controlar o grafo de carregamento por consulta</li><li><code>@BatchSize(size=25)</code> para carregar relacionamentos em lotes</li><li>DTOs com projeções via <code>@Query</code></li></ul><strong>Diagnóstico:</strong> habilitar <code>quarkus.hibernate-orm.log.sql=true</code> e contar as queries.'},
+  {id:5,cat:'Java',q:'Como funciona o @Transactional e quais são as armadilhas mais comuns?',a:'<strong>Funcionamento:</strong> O Spring/Quarkus envolve o método em um proxy. Ao chamar o método, o framework inicia/propaga uma transação conforme a <code>propagation</code> configurada, e faz commit ou rollback ao final.<br><br><strong>Armadilhas principais:</strong><ul><li><strong>Self-invocation:</strong> chamar um método @Transactional dentro da mesma classe não passa pelo proxy. Solução: injetar a própria classe.</li><li><strong>Exceção verificada não faz rollback</strong> por padrão. Use <code>rollbackFor=Exception.class</code>.</li><li><strong>Lazy loading fora de transação:</strong> LazyInitializationException.</li><li><strong>Propagation REQUIRES_NEW</strong> cria transação nova — cuidado com deadlocks.</li></ul>'},
+  {id:6,cat:'Java',q:'Qual a diferença entre programação reativa (Reactive Streams) e threads convencionais?',a:'<strong>Thread convencional:</strong> cada requisição ocupa uma thread durante toda a operação, incluindo waits. I/O bloqueante.<br><br><strong>Reactive:</strong> usa event loop. Thread livre durante I/O; callbacks/operators executados quando dados chegam. Não bloqueia.<br><br><strong>No Quarkus:</strong><ul><li>Mutiny: <code>Uni</code> (0..1 item) e <code>Multi</code> (0..N items)</li><li>Backpressure: produtor respeita a capacidade do consumidor</li></ul><strong>Quando usar:</strong> alta concorrência com I/O intenso. Para lógica CPU-bound, virtual threads são mais simples.'},
+  {id:7,cat:'Java',q:'Como você implementaria um cache distribuído em uma aplicação Quarkus/Spring?',a:'<strong>Níveis de cache:</strong><ul><li><strong>L1 (in-process):</strong> Caffeine — muito rápido, sem network, não compartilhado entre instâncias</li><li><strong>L2 (distribuído):</strong> Redis, Hazelcast — compartilhado entre pods</li></ul><strong>No Spring Boot:</strong> <code>@Cacheable</code>/<code>@CacheEvict</code> + <code>spring-boot-starter-data-redis</code>.<br><br><strong>No Quarkus:</strong> extensão <code>quarkus-cache</code> com <code>@CacheResult</code>/<code>@CacheInvalidate</code>.<br><br><strong>Pontos de atenção:</strong> TTL adequado, invalidação por evento (pub/sub Redis), cache stampede.'},
+  {id:8,cat:'Java',q:'Explique CompletableFuture: como encadear operações async e tratar erros?',a:'<strong>Operações principais:</strong><ul><li><code>thenApply</code>: transforma o resultado (síncrono na thread do completor)</li><li><code>thenCompose</code>: encadeia outro CompletableFuture (flatMap)</li><li><code>thenCombine</code>: aguarda dois futures e combina resultados</li><li><code>thenApplyAsync</code>: executa na thread pool especificada</li></ul><strong>Tratamento de erro:</strong><ul><li><code>exceptionally</code>: captura exceção e retorna valor padrão</li><li><code>handle</code>: recebe resultado OU exceção — sempre executado</li></ul><strong>Dica:</strong> "Usei <code>allOf</code> para paralelizar chamadas a 3 microsserviços, reduzindo de 900ms para 400ms."'},
+  {id:9,cat:'Java',q:'Qual a diferença entre HashMap, LinkedHashMap, TreeMap e ConcurrentHashMap?',a:'<strong>HashMap:</strong> O(1) médio para get/put, sem ordem garantida. Usa array de buckets + linked list/tree (Java 8+).<br><br><strong>LinkedHashMap:</strong> mantém ordem de inserção. Útil para LRU cache.<br><br><strong>TreeMap:</strong> ordena por chave (natural ou Comparator). O(log n). Implementa NavigableMap — útil para <code>headMap</code>, <code>tailMap</code>, <code>floorKey</code>.<br><br><strong>ConcurrentHashMap:</strong> thread-safe sem lock global. Usa CAS + synchronized por bucket (Java 8+). Não permite chave/valor null.'},
+  {id:10,cat:'Java',q:'Como você explica streams e lambda expressions para alguém que veio do Java 7?',a:'<strong>Analogia:</strong> uma linha de montagem declarativa. Em vez de um for loop manual, você define as etapas da linha.<br><br><strong>Lambda:</strong> forma compacta de implementar uma interface funcional. <code>x -> x * 2</code> é equivalente a uma classe anônima implementando Function.<br><br><strong>Streams:</strong> lazy por padrão — nenhuma operação intermediária executa até um terminal ser chamado (<code>collect</code>, <code>forEach</code>, <code>findFirst</code>).<br><br><strong>Cuidados:</strong> streams não são reutilizáveis, parallel streams têm overhead de spliteração, evite side-effects em operações intermediárias.'},
+  {id:11,cat:'Java',q:'Como funciona o módulo system (JPMS) do Java 9+ e quando ele importa na prática?',a:'<strong>Problema que resolve:</strong> antes do Java 9, todos os JARs eram acessíveis entre si. Classpath hell: versões conflitantes, acesso a internals da JVM.<br><br><strong>JPMS:</strong> <code>module-info.java</code> declara o que o módulo exporta (<code>exports</code>) e do que depende (<code>requires</code>). Acesso a pacotes não exportados é bloqueado pela JVM.<br><br><strong>Na prática:</strong> impacta ao usar reflexão (Hibernate, Jackson precisam de <code>--add-opens</code>), e é fundamental para imagens nativas com GraalVM/Quarkus.'},
+  {id:12,cat:'Java',q:'O que é imutabilidade e por que ela importa em sistemas concorrentes?',a:'<strong>Objeto imutável:</strong> seu estado não muda após a construção. Ex: <code>String</code>, <code>LocalDate</code>, records do Java 16+.<br><br><strong>Por que importa em concorrência:</strong> objetos imutáveis são automaticamente thread-safe — sem necessidade de synchronized ou locks.<br><br><strong>Como criar:</strong> campos <code>final</code>, sem setters, cópias defensivas de coleções mutáveis.<br><br><strong>Records (Java 16+):</strong> <code>record Point(int x, int y) {}</code> — gera construtor, getters, equals, hashCode, toString automaticamente.'},
+  {id:13,cat:'Java',q:'Quais as diferenças entre Quarkus e Spring Boot? Quando você escolheria cada um?',a:'<strong>Spring Boot:</strong> ecossistema maduro, enorme comunidade, inicialização ~2-5s, maior footprint de memória.<br><br><strong>Quarkus:</strong> build-time processing, startup &lt; 50ms em JVM, &lt; 10ms em native. Lower memory. Dev experience com live reload nativo.<br><br><strong>Quando escolher Spring:</strong> equipe familiarizada, projeto legado, libs sem extensão Quarkus.<br><br><strong>Quando escolher Quarkus:</strong> microsserviços em containers, serverless, restrição de memória, Kubernetes-native (health checks, metrics, tracing integrados).'},
+  {id:14,cat:'Java',q:'Como você implementa e testa código com inversão de dependência (DI) corretamente?',a:'<strong>Por que importa para testes:</strong> ao injetar dependências via interface, você pode substituir por mock/stub em testes unitários sem container.<br><br><strong>Boas práticas:</strong><ul><li>Injetar via construtor (não via field injection) — facilita testes</li><li>Programar para interfaces, não implementações concretas</li><li>Evitar <code>new</code> dentro de serviços para objetos com lógica</li></ul><strong>No Spring/Quarkus:</strong> <code>@Inject</code>/<code>@Autowired</code> no construtor. Testes: <code>@MockBean</code> (Spring) ou <code>@InjectMock</code> (Quarkus).'},
+  {id:15,cat:'Java',q:'O que são annotations de validação (Bean Validation) e como criar validações customizadas?',a:'<strong>Bean Validation (JSR-380):</strong> <code>@NotNull</code>, <code>@NotBlank</code>, <code>@Email</code>, <code>@Min</code>, <code>@Max</code>, <code>@Pattern</code>, <code>@Valid</code> (cascata).<br><br><strong>Validação customizada:</strong><ol><li>Criar annotation <code>@CpfValido</code> com <code>@Constraint(validatedBy = CpfValidator.class)</code></li><li>Implementar <code>ConstraintValidator&lt;CpfValido, String&gt;</code></li><li>Sobrescrever <code>isValid</code></li></ol><strong>Validação cross-field:</strong> annotation na classe, acessando o objeto inteiro no validator.'},
+  {id:16,cat:'Angular',q:'Explique a diferença entre change detection Default e OnPush no Angular.',a:'<strong>Default:</strong> Angular verifica toda a árvore de componentes a cada evento (click, setTimeout, HTTP). Simples, mas ineficiente em apps grandes.<br><br><strong>OnPush:</strong> Angular só verifica quando:<ul><li>Uma referência de Input muda (não conteúdo — referência!)</li><li>Um evento DOM origina dentro do componente</li><li>Um Observable via <code>async</code> pipe emite</li><li>Você chama <code>markForCheck()</code> manualmente</li></ul><strong>Com Signals (Angular 16+):</strong> change detection granular e automática baseada em quais signals o template lê.'},
+  {id:17,cat:'Angular',q:'Como funciona o sistema de injeção de dependência hierárquico do Angular?',a:'<strong>Hierarquia de injectors:</strong> Environment → Root → Element (componente). Cada nível pode ter seu próprio provider.<br><br><strong>Onde prover:</strong><ul><li><code>providedIn: "root"</code>: singleton global, tree-shakeable</li><li><code>providers</code> no módulo/componente: instância scoped</li><li><code>viewProviders</code>: disponível apenas na view, não em ng-content</li></ul><strong>Multi-providers:</strong> <code>{ provide: TOKEN, useClass: Impl, multi: true }</code> — cria um array de implementações (ex: HTTP interceptors).'},
+  {id:18,cat:'Angular',q:'O que são Signals no Angular e como eles diferem de Observables (RxJS)?',a:'<strong>Signals (Angular 16+):</strong> primitivo de reatividade síncrono. <code>signal(0)</code>, <code>computed()</code>, <code>effect()</code>. Quando um signal muda, Angular sabe exatamente quais partes do template atualizar.<br><br><strong>Observable (RxJS):</strong> assíncrono, lazy, baseado em push. Poderoso para eventos no tempo e combinações complexas.<br><br><strong>Diferenças:</strong><ul><li>Signal: leitura síncrona <code>count()</code>, sem subscribe</li><li>Observable: precisa de subscribe e gerenciamento de lifecycle</li></ul><strong>Interop:</strong> <code>toSignal(obs$)</code> e <code>toObservable(signal)</code>.'},
+  {id:19,cat:'Angular',q:'Como funciona o lazy loading de módulos e como otimizar o bundle size?',a:'<strong>Lazy loading:</strong> módulos carregados sob demanda.<br><code>{ path: "admin", loadChildren: () => import("./admin.module") }</code><br><br><strong>Standalone lazy (Angular 15+):</strong><br><code>{ path: "admin", loadComponent: () => import("./admin.component") }</code><br><br><strong>Otimizações:</strong><ul><li><code>ng build --stats-json</code> + webpack-bundle-analyzer</li><li>Tree-shaking: importar só o necessário</li><li>Preloading strategy para módulos em background</li><li>Deferrable views (<code>@defer</code>) para componentes pesados abaixo do fold</li></ul>'},
+  {id:20,cat:'Angular',q:'Explique RxJS: quais operators você mais usa e como evitar memory leaks?',a:'<strong>Operators essenciais:</strong><ul><li><code>switchMap</code>: cancela observable anterior. Ideal para search typeahead.</li><li><code>mergeMap</code>: paralelo — cuidado com race conditions.</li><li><code>concatMap</code>: em sequência — garante ordem.</li><li><code>exhaustMap</code>: ignora novos valores enquanto atual processa. Ideal para submit.</li><li><code>debounceTime</code>/<code>distinctUntilChanged</code>: evitar requisições desnecessárias.</li></ul><strong>Evitar memory leaks:</strong><ul><li>Usar <code>async</code> pipe (unsubscribe automático)</li><li><code>takeUntilDestroyed()</code> (Angular 16+)</li></ul>'},
+  {id:21,cat:'Angular',q:'Como você implementa um formulário reativo complexo com validações dinâmicas?',a:'<strong>Reactive Forms:</strong> modelo em TypeScript, imutável, testável. Preferível a template-driven para formulários complexos.<br><br><strong>FormArray:</strong> lista dinâmica. <code>this.fb.array([this.fb.group({ rua: "", cep: "" })])</code><br><br><strong>Validações dinâmicas:</strong><ul><li><code>control.setValidators([...]); control.updateValueAndValidity()</code></li><li>Validador cross-field: função no <code>FormGroup</code></li><li>Validador async: retorna <code>Observable&lt;ValidationErrors | null&gt;</code></li></ul><strong>Performance:</strong> use <code>updateOn: "blur"</code> para evitar validações a cada keypress.'},
+  {id:22,cat:'Angular',q:'O que são standalone components e como eles mudam a arquitetura?',a:'<strong>Standalone (Angular 14+):</strong> declaram suas próprias dependências, sem NgModule.<br><code>@Component({ standalone: true, imports: [CommonModule, RouterModule] })</code><br><br><strong>Impacto:</strong><ul><li>Elimina NgModules como unidade obrigatória</li><li>Melhor tree-shaking</li><li>Lazy loading por componente</li></ul><strong>Bootstrap standalone:</strong> <code>bootstrapApplication(AppComponent, { providers: [...] })</code><br><br><strong>Migração:</strong> <code>ng generate @angular/core:standalone</code> automatiza a migração.'},
+  {id:23,cat:'Angular',q:'Como você implementa SSR com Angular Universal e quais são os trade-offs?',a:'<strong>Benefícios:</strong><ul><li>SEO: crawlers recebem HTML completo</li><li>First Contentful Paint mais rápido</li></ul><strong>Desafios:</strong><ul><li>Código isomórfico: sem <code>window</code>, <code>document</code>, <code>localStorage</code> — usar <code>isPlatformBrowser</code></li><li>Hydration: reconciliar DOM servidor com browser (Angular 16+ melhorou muito)</li><li>Infra mais complexa: precisa de Node.js server</li></ul><strong>Alternativa:</strong> SSG (Static Site Generation) para conteúdo estático — CDN-friendly, mais simples.'},
+  {id:24,cat:'Angular',q:'Como você testa componentes Angular? Diferença entre unitários e de integração?',a:'<strong>Teste unitário:</strong> isola o componente com TestBed mínimo. Moca dependências. Foco na lógica do componente.<br><br><strong>Teste de integração:</strong> usa TestBed com o módulo real. Testa interação entre componentes, diretivas e pipes.<br><br><strong>Interações DOM:</strong> <code>fixture.debugElement.query(By.css("button")).nativeElement.click()</code><br><br><strong>HTTP:</strong> <code>HttpClientTestingModule</code> + <code>HttpTestingController</code>.<br><br><strong>Dica:</strong> teste por comportamento (o que o usuário vê), não por implementação interna.'},
+  {id:25,cat:'Angular',q:'Como você implementa state management? NgRx vs Signals vs serviços simples?',a:'<strong>Serviços com BehaviorSubject/Signal:</strong> apps pequenas a médias, estado local. Sem boilerplate.<br><br><strong>NgRx (Redux pattern):</strong> Actions → Reducers → Store → Selectors → Effects. Poderoso para:<ul><li>Estado global complexo com muitas interações</li><li>Rastreabilidade com DevTools (time-travel debugging)</li><li>Equipes grandes com contratos definidos</li></ul><strong>NgRx SignalStore:</strong> combina simplicidade de Signals com estrutura NgRx.<br><br><strong>Regra:</strong> "Não adicione NgRx antes de sentir a dor que ele resolve."'},
+  {id:26,cat:'Arquitetura',q:'Explique os principais padrões de microserviços: Saga, CQRS e Event Sourcing.',a:'<strong>Saga:</strong> gerencia transações distribuídas. Cada serviço executa sua parte e publica evento; se falhar, publica evento de compensação.<ul><li>Choreography: serviços reagem a eventos</li><li>Orchestration: saga orchestrator decide os passos</li></ul><strong>CQRS:</strong> separa modelo de escrita (Command) do modelo de leitura (Query). Permite otimizar cada lado independentemente.<br><br><strong>Event Sourcing:</strong> o estado é derivado de um log de eventos imutáveis. "O que aconteceu" é a fonte da verdade. Permite replay de eventos e auditoria completa.'},
+  {id:27,cat:'Arquitetura',q:'O que é Circuit Breaker e como você o implementaria em Java?',a:'<strong>Problema:</strong> chamadas lentas a serviços externos causam acúmulo de threads (cascade failure).<br><br><strong>Três estados:</strong><ul><li><strong>Closed:</strong> chamadas passam. Monitora taxa de falha.</li><li><strong>Open:</strong> rejeita chamadas imediatamente (fail fast).</li><li><strong>Half-open:</strong> testa recuperação.</li></ul><strong>No Java:</strong><ul><li><strong>Resilience4j:</strong> <code>@CircuitBreaker(name = "paymentService", fallbackMethod = "fallback")</code></li><li><strong>Quarkus:</strong> SmallRye Fault Tolerance — <code>@CircuitBreaker(requestVolumeThreshold=10, failureRatio=0.5)</code></li></ul>Combine com <code>@Retry</code>, <code>@Bulkhead</code> e <code>@Timeout</code>.'},
+  {id:28,cat:'Arquitetura',q:'Como você projeta uma API REST seguindo os princípios de maturidade de Richardson?',a:'<strong>Modelo de Richardson:</strong><ul><li><strong>Nível 0:</strong> RPC via HTTP, um endpoint. Ex: <code>POST /getUser</code></li><li><strong>Nível 1:</strong> Recursos. <code>/users/123</code></li><li><strong>Nível 2:</strong> Verbos HTTP corretos + status codes semânticos (201, 204, 400, 404, 409)</li><li><strong>Nível 3:</strong> HATEOAS — respostas incluem links para ações possíveis</li></ul><strong>Além dos níveis:</strong><ul><li>Versionamento: <code>/v1/users</code> ou via header Accept</li><li>Paginação cursor-based (Keyset) para performance</li><li>Idempotency-Key header para POST</li></ul>'},
+  {id:29,cat:'Arquitetura',q:'Qual a diferença entre autenticação e autorização? Como implementar OAuth2 + JWT?',a:'<strong>Autenticação:</strong> provar quem você é. <strong>Autorização:</strong> o que você pode fazer.<br><br><strong>OAuth2 + JWT flow:</strong><ol><li>Login → Authorization Server valida credenciais</li><li>Emite <code>access_token</code> (JWT ~15min) e <code>refresh_token</code></li><li>Cliente envia <code>Bearer token</code> no header</li><li>Resource Server valida assinatura localmente (sem roundtrip)</li><li>Quando expira, usa refresh_token</li></ol><strong>JWT:</strong> header.payload.signature. Payload contém claims (sub, roles, exp). Nunca dados sensíveis.<br><br><strong>Cuidado:</strong> revogação é difícil — use blacklist em Redis ou tokens de vida curta.'},
+  {id:30,cat:'Arquitetura',q:'Como você projetaria um sistema de mensageria com Kafka? Tópicos, partições e grupos.',a:'<strong>Conceitos core:</strong><ul><li><strong>Tópico:</strong> canal append-only.</li><li><strong>Partição:</strong> unidade de paralelismo. Mensagens ordenadas dentro da partição.</li><li><strong>Offset:</strong> posição da mensagem. Consumer controla o commit.</li><li><strong>Consumer Group:</strong> divide partições entre consumers — escala horizontalmente.</li></ul><strong>Garantias:</strong><ul><li>At most once: auto-commit antes de processar (pode perder)</li><li>At least once: commit após processar (pode duplicar — design idempotente)</li><li>Exactly once: idempotent producer + transações Kafka</li></ul>'},
+  {id:31,cat:'Arquitetura',q:'Explique CAP Theorem e como ele influencia decisões de banco de dados distribuído.',a:'<strong>CAP:</strong> em sistema distribuído, só 2 de 3 garantidas:<ul><li><strong>Consistency:</strong> todos os nós veem os mesmos dados</li><li><strong>Availability:</strong> todo request recebe resposta</li><li><strong>Partition Tolerance:</strong> funciona com partição de rede</li></ul><strong>Partição é inevitável</strong> — a escolha real é C vs A durante uma partição.<br><br><strong>Exemplos:</strong><ul><li><strong>CP:</strong> HBase, Zookeeper</li><li><strong>AP:</strong> Cassandra, CouchDB</li><li><strong>CA:</strong> bancos relacionais single-node</li></ul><strong>PACELC:</strong> mesmo sem partição, há trade-off entre latência e consistência.'},
+  {id:32,cat:'Arquitetura',q:'O que é DDD e como você aplica Aggregates e Bounded Contexts?',a:'<strong>DDD:</strong> design centrado no domínio com linguagem ubíqua compartilhada entre devs e especialistas.<br><br><strong>Bounded Context:</strong> fronteira onde um modelo tem significado definido. "Produto" em Catálogo ≠ "Produto" em Pedido.<br><br><strong>Aggregate:</strong> cluster de objetos tratado como unidade. Aggregate Root controla acesso. Invariantes de negócio garantidas dentro do aggregate.<br><br><strong>Regra:</strong> referências entre aggregates são por ID, não por referência de objeto. Cada aggregate tem sua própria transação.<br><br><strong>Preferir aggregates pequenos.</strong> Se crescer muito, reavalie os limites.'},
+  {id:33,cat:'Arquitetura',q:'Como você garantiria a idempotência de operações em APIs e mensageria?',a:'<strong>Idempotência:</strong> executar a mesma operação múltiplas vezes produz o mesmo resultado. Essencial para retries.<br><br><strong>Em APIs REST:</strong><ul><li>GET, PUT, DELETE são naturalmente idempotentes</li><li>POST: adicionar <code>Idempotency-Key</code> header (gerado pelo cliente)</li><li>Servidor armazena resultado por chave (Redis com TTL)</li></ul><strong>Em mensageria:</strong><ul><li>At-least-once delivery = mensagens podem duplicar</li><li>Deduplication key na DB</li><li>Outbox pattern: publicar evento na mesma transação do banco</li></ul>'},
+  {id:34,cat:'Arquitetura',q:'Explique o padrão Outbox para garantir consistência entre banco e mensageria.',a:'<strong>Problema:</strong> salvar no banco E publicar no Kafka — uma pode falhar e a outra não. Inconsistência.<br><br><strong>Outbox Pattern:</strong><ol><li>Na mesma transação, salvar evento na tabela <code>outbox</code></li><li>Processo separado (CDC ou polling) lê a outbox e publica no broker</li><li>Após confirmação, marca como publicado</li></ol><strong>Implementações:</strong><ul><li><strong>Debezium (CDC):</strong> lê o transaction log do PostgreSQL automaticamente</li><li><strong>Polling scheduler:</strong> mais simples, adiciona latência</li></ul><strong>Vantagem:</strong> transação garante atomicidade. Sem evento perdido ou duplicado.'},
+  {id:35,cat:'Arquitetura',q:'Como você abordaria o design de um sistema de autenticação multi-tenant?',a:'<strong>Estratégias de isolamento:</strong><ul><li><strong>Schema por tenant:</strong> mesmo banco, schemas separados. Bom isolamento.</li><li><strong>Banco por tenant:</strong> isolamento máximo, custo alto.</li><li><strong>Shared schema:</strong> coluna <code>tenant_id</code> em todas as tabelas. Risco de vazamento.</li></ul><strong>No código:</strong><ul><li>Tenant resolvido do JWT (claim <code>tid</code>) ou subdomínio</li><li>Filtro global em Hibernate (<code>@Filter</code>) ou Row Level Security no PostgreSQL</li></ul><strong>Autenticação:</strong> cada tenant pode ter seu próprio IdP (SAML/OIDC) via Keycloak ou Auth0.'},
+  {id:36,cat:'DevOps',q:'Explique a diferença entre Deployment, StatefulSet e DaemonSet no Kubernetes.',a:'<strong>Deployment:</strong> apps stateless. Pods intercambiáveis. Rolling update por padrão.<br><br><strong>StatefulSet:</strong> apps stateful (bancos, Kafka). Garante:<ul><li>Identidade estável por pod (pod-0, pod-1...)</li><li>PersistentVolume exclusivo por pod</li><li>Ordem determinística de criação/deleção</li></ul><strong>DaemonSet:</strong> garante um pod em CADA nó. Casos de uso: coletores de logs (Fluentd), agentes de monitoramento (Prometheus Node Exporter), network plugins.<br><br><strong>Bônus:</strong> <code>CronJob</code> para agendados, <code>Job</code> para tarefas one-shot.'},
+  {id:37,cat:'DevOps',q:'O que é um multi-stage Dockerfile e por que é importante para Java?',a:'<strong>Multi-stage build:</strong> múltiplas instruções FROM. Cada stage descarta o que não precisa.<br><br><strong>Exemplo Quarkus:</strong><br><code>FROM maven:3.9 AS builder</code><br><code>RUN mvn package -DskipTests</code><br><code>FROM eclipse-temurin:21-jre-alpine</code><br><code>COPY --from=builder target/app.jar /app.jar</code><br><br><strong>Benefícios:</strong><ul><li>Imagem final sem JDK, Maven, source code — só JRE + JAR</li><li>Redução de ~800MB para ~200MB</li><li>Menor superfície de ataque de segurança</li><li>Cache por stage independente</li></ul>'},
+  {id:38,cat:'DevOps',q:'Explique o que são SLI, SLO e SLA e como você os define para uma API.',a:'<strong>SLI:</strong> métrica que mede qualidade. Ex: latência p99, taxa de disponibilidade, taxa de erros.<br><br><strong>SLO:</strong> alvo interno para o SLI. Ex: "99,9% das requests em &lt; 200ms". Define o "error budget".<br><br><strong>SLA:</strong> contrato formal com penalidades. Mais conservador que o SLO.<br><br><strong>Error budget:</strong> 99,9% = 8,7 horas de downtime/ano. Permite inovação — se o budget é consumido rápido, prioriza confiabilidade.<br><br><strong>Implementação:</strong> Prometheus + Grafana. Alertas quando burn rate excede threshold.'},
+  {id:39,cat:'DevOps',q:'Qual a diferença entre Blue-Green deployment e Canary deployment?',a:'<strong>Blue-Green:</strong><ul><li>Dois ambientes idênticos: Blue (produção atual) e Green (nova versão)</li><li>Após validar Green, LB muda 100% do tráfego de uma vez</li><li>Rollback: retornar para Blue</li><li>Custo: dobra a infraestrutura</li></ul><strong>Canary:</strong><ul><li>Nova versão recebe % pequena do tráfego (1%, 5%, 10%...)</li><li>Monitora métricas (erros, latência)</li><li>Aumenta gradualmente ou reverte</li><li>Menos usuários impactados em caso de problema</li></ul><strong>No Kubernetes:</strong> Argo Rollouts ou Flagger para automatizar.'},
+  {id:40,cat:'DevOps',q:'Como você configuraria observabilidade para uma aplicação Java em Kubernetes?',a:'<strong>Os três pilares:</strong><br><br><strong>Logs estruturados:</strong> JSON com campo <code>traceId</code>. Quarkus: <code>quarkus-logging-json</code>. Stack: Fluentd → Elasticsearch → Kibana / Grafana Loki.<br><br><strong>Metrics:</strong> Micrometer → Prometheus → Grafana. JVM metrics automáticas + métricas de negócio (<code>@Timed</code>, <code>@Counted</code>).<br><br><strong>Traces:</strong> OpenTelemetry (padrão). Quarkus: extensão <code>quarkus-opentelemetry</code>. Backend: Jaeger ou Grafana Tempo.<br><br><strong>Correlação:</strong> traceId propagado via W3C Trace Context headers — um request = mesmo id em logs, métricas e trace.'},
+  {id:41,cat:'DevOps',q:'O que é Infrastructure as Code? Como você usaria Terraform ou Helm?',a:'<strong>IaC:</strong> infraestrutura em arquivos versionados, não configurada manualmente. Reproducível, versionável, testável.<br><br><strong>Terraform:</strong> provisiona infraestrutura cloud (VMs, VPCs, DBs, clusters). State file rastreia o estado real. <code>terraform plan</code> mostra o diff antes de aplicar.<br><br><strong>Helm:</strong> gerenciador de pacotes Kubernetes. Chart = templates YAML parametrizados. <code>helm install minha-app ./chart --values prod.yaml</code>.<br><br><strong>GitOps:</strong> ArgoCD/Flux sincroniza estado do cluster com Git. Mudanças via PR — auditável e reversível.'},
+  {id:42,cat:'DevOps',q:'Como você protege secrets e configurações sensíveis em uma aplicação containerizada?',a:'<strong>Nunca:</strong> secrets em variáveis hardcoded, no código ou em imagens Docker.<br><br><strong>Kubernetes Secrets:</strong> base64 (não é encriptação!). Habilitar Encryption at Rest no etcd obrigatoriamente.<br><br><strong>Soluções melhores:</strong><ul><li><strong>HashiCorp Vault:</strong> rotação automática, audit log, dynamic credentials para DB</li><li><strong>AWS Secrets Manager / GCP Secret Manager</strong></li><li><strong>External Secrets Operator:</strong> sincroniza secrets do vault para Kubernetes Secrets</li></ul><strong>No Quarkus/Spring:</strong> referências em config: <code>db.password=${vault:database/creds/my-role:password}</code>'},
+  {id:43,cat:'DevOps',q:'Explique health checks e como configurar readiness e liveness probes no Kubernetes.',a:'<strong>Liveness probe:</strong> "O container está vivo?" Falhou → Kubernetes reinicia. Detecta deadlocks, estado corrompido.<br><br><strong>Readiness probe:</strong> "Está pronto para tráfego?" Falhou → sai do load balancer (sem reiniciar). Detecta dependências inicializando.<br><br><strong>Startup probe:</strong> aguarda inicialização antes de ativar liveness. Evita reinicializações em apps com startup lento.<br><br><strong>Endpoints:</strong><ul><li>Spring: <code>/actuator/health/liveness</code> e <code>/readiness</code></li><li>Quarkus: <code>/q/health/live</code> e <code>/q/health/ready</code></li></ul><strong>Boas práticas:</strong> readiness verifica dependências críticas. Liveness deve ser leve.'},
+  {id:44,cat:'Engenharia',q:'Como você abordaria a revisão de código de um colega? O que você considera em um code review?',a:'<strong>Por prioridade:</strong><ol><li><strong>Correção:</strong> o código faz o que deveria? Edge cases cobertos?</li><li><strong>Segurança:</strong> SQL injection, XSS, autorização correta</li><li><strong>Performance:</strong> N+1, O(n²) desnecessário, locks longos</li><li><strong>Legibilidade:</strong> nomes claros, métodos pequenos, sem código morto</li><li><strong>Testes:</strong> cobertura adequada, comportamento não implementação</li></ol><strong>Como dar feedback:</strong> foco no código, não na pessoa. Perguntas ("você considerou...?") em vez de afirmações. Distinguir bloqueadores de sugestões.<br><br><strong>Sinal de maturidade:</strong> self-review antes de abrir o PR.'},
+  {id:45,cat:'Engenharia',q:'Explique TDD. Quando você usa e quando não usa?',a:'<strong>TDD:</strong> Red → Green → Refactor.<ol><li>Escrever um teste que falha</li><li>Código mínimo para passar</li><li>Refatorar mantendo testes verdes</li></ol><strong>Benefícios:</strong> design emergente, confiança para refatorar, documentação executável, menos debugging.<br><br><strong>Quando usar:</strong> lógica de negócio complexa, algoritmos, código com muitas condições, desenvolvimento de APIs.<br><br><strong>Quando adaptar:</strong> UIs exploratórias, scripts one-shot, exploração de novas libs.<br><br><strong>BDD:</strong> TDD em nível de comportamento. Cucumber/Gherkin: "Dado/Quando/Então". Útil quando PO/QA participam dos cenários.'},
+  {id:46,cat:'Engenharia',q:'Como você identifica e resolve um problema de performance em produção?',a:'<strong>Processo:</strong><ol><li><strong>Observar:</strong> qual sintoma? Alta latência? CPU? Memória? Erros?</li><li><strong>Medir:</strong> APM, Prometheus/Grafana, logs. Definir baseline.</li><li><strong>Localizar:</strong> trace distribuído para achar o serviço/método lento. Flame graph de CPU.</li><li><strong>Hipótese e teste:</strong> uma mudança de cada vez. Medir impacto.</li><li><strong>Deploy gradual + monitorar</strong></li></ol><strong>Causas comuns em Java:</strong><ul><li>N+1 queries → JOIN FETCH, batch size</li><li>GC excessivo → tuning, menos alocação</li><li>Thread contention → async, pool sizing</li><li>Cache miss alto → aumentar TTL, pre-warming</li></ul>'},
+  {id:47,cat:'Engenharia',q:'O que é débito técnico e como equilibrar com entregas de valor?',a:'<strong>Débito técnico:</strong> custo futuro de decisões de design subótimas. Pode ser intencional (entrega rápida) ou não-intencional.<br><br><strong>Tipos:</strong><ul><li>Código ilegível/duplicado → dificulta manutenção</li><li>Sem testes → medo de mudar</li><li>Arquitetura inadequada → bloqueia evolução</li><li>Dependências desatualizadas → vulnerabilidades</li></ul><strong>Como equilibrar:</strong><ul><li>Quantificar: "cada feature leva X% mais tempo por causa deste débito"</li><li>Reservar ~20% do sprint para débito</li><li>Boy Scout Rule: deixar o código melhor do que encontrou</li></ul>'},
+  {id:48,cat:'Engenharia',q:'Como você explica uma decisão técnica complexa para stakeholders não-técnicos?',a:'<strong>Framework:</strong> contexto → problema → opções → decisão → impacto para o negócio.<br><br><strong>Técnicas:</strong><ul><li>Analogias: "Migrar para microserviços é como dividir uma loja em departamentos independentes — cada um pode ser reformado sem fechar os outros."</li><li>Foco no impacto de negócio: "Isso reduz o tempo de entrega de novas features de 3 meses para 3 semanas."</li><li>Quantificar riscos e benefícios em custo, tempo, confiabilidade</li></ul><strong>Sinal de senioridade:</strong> calibrar o nível de detalhe conforme o interlocutor.'},
+  {id:49,cat:'Engenharia',q:'O que são contratos de API (Contract Testing) e por que são importantes em microserviços?',a:'<strong>Problema:</strong> como garantir que mudança no Serviço B não quebra o A sem rodar os dois juntos?<br><br><strong>Contract Testing (Pact):</strong><ul><li>Consumer (A) define o contrato: "espero este endpoint com este payload"</li><li>Provider (B) verifica que cumpre todos os contratos</li><li>Cada serviço testa independentemente</li></ul><strong>Fluxo:</strong><ol><li>Consumer gera pact e publica no Pact Broker</li><li>CI do Provider verifica os contratos</li><li>Falha no CI = mudança quebraria um consumer</li></ol><strong>Benefícios:</strong> feedback rápido, deploys independentes com confiança.'},
+  {id:50,cat:'Engenharia',q:'Como você abordaria a migração de um monólito para microserviços sem parar o sistema?',a:'<strong>Strangler Fig Pattern:</strong> extrair funcionalidades incrementalmente enquanto o monólito continua.<br><br><strong>Passos:</strong><ol><li>Identificar bounded contexts candidatos (começa pelo menos dependente)</li><li>Criar o novo serviço em paralelo</li><li>API Gateway roteia entre monólito e novo serviço</li><li>Migrar dados gradualmente (double-write ou CDC)</li><li>Validar com canary ou traffic shadowing</li><li>Desligar a parte correspondente no monólito</li></ol><strong>Armadilhas:</strong><ul><li>Banco compartilhado entre serviços (acoplamento)</li><li>Chamadas síncronas em cascata (distributed monolith)</li></ul>'}
+];
+
+const catColors = { Java:'active-java', Angular:'active-angular', Arquitetura:'active-arch', DevOps:'active-devops', Engenharia:'active-eng' };
+const cats = ['Todos','Java','Angular','Arquitetura','DevOps','Engenharia'];
+let activecat = 'Todos';
+let answered = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+
+function saveProgress() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify([...answered]));
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('bottom-bar').classList.toggle('visible', id === 'quiz');
+  updateAllProgress();
+}
+
+function togglePhase(hdr) {
+  const body = hdr.nextElementSibling;
+  body.classList.toggle('open');
+  hdr.classList.toggle('open');
+}
+
+function renderFilters() {
+  document.getElementById('cat-filters').innerHTML = cats.map(c => {
+    const isActive = c === activecat;
+    const cls = isActive ? (c === 'Todos' ? 'active-all' : catColors[c]) : '';
+    return `<button class="cat-btn ${cls}" onclick="filterCat('${c}')">${c}</button>`;
+  }).join('');
+}
+
+function filterCat(cat) {
+  activecat = cat;
+  renderFilters();
+  renderQuestions();
+}
+
+function renderQuestions() {
+  const filtered = activecat === 'Todos' ? questions : questions.filter(q => q.cat === activecat);
+  document.getElementById('questions-list').innerHTML = filtered.map(q => `
+    <div class="q-card ${answered.has(q.id) ? 'answered' : ''}" id="qc-${q.id}">
+      <div class="q-header" onclick="toggleQ(${q.id})">
+        <span class="q-num">#${String(q.id).padStart(2,'0')}</span>
+        <div class="q-text-wrap">
+          <div class="q-text">${q.q}</div>
+          <span class="q-badge badge-${q.cat}">${q.cat}</span>
+        </div>
+        <span class="check-icon">✓</span>
+        <span class="q-chevron ${answered.has(q.id) ? '' : ''}" id="chev-${q.id}">▼</span>
+      </div>
+      <div class="q-answer${answered.has(q.id) ? ' open' : ''}" id="ans-${q.id}">${q.a}</div>
+    </div>
+  `).join('');
+  // sync chevrons for open answers
+  filtered.forEach(q => {
+    if (answered.has(q.id)) {
+      const chev = document.getElementById('chev-'+q.id);
+      if (chev) chev.classList.add('open');
+    }
+  });
+}
+
+function toggleQ(id) {
+  const ans = document.getElementById('ans-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const card = document.getElementById('qc-' + id);
+  const isOpen = ans.classList.contains('open');
+  ans.classList.toggle('open');
+  chev.classList.toggle('open');
+  if (!isOpen) {
+    answered.add(id);
+    card.classList.add('answered');
+    saveProgress();
+    updateAllProgress();
+  }
+}
+
+function updateAllProgress() {
+  const pct = Math.round((answered.size / questions.length) * 100);
+  document.getElementById('quiz-prog-bar').style.width = pct + '%';
+  document.getElementById('quiz-prog-label').textContent = `${answered.size} de ${questions.length} respondidas`;
+  document.getElementById('header-prog').textContent = `${answered.size} / ${questions.length}`;
+  document.getElementById('home-answered').textContent = answered.size;
+  document.getElementById('home-prog-bar').style.width = pct + '%';
+  document.getElementById('home-prog-label').textContent = answered.size === 0 ? 'Nenhuma pergunta revisada ainda' : `${answered.size} de 50 perguntas revisadas (${pct}%)`;
+  document.getElementById('bottom-pct').textContent = pct + '%';
+  document.getElementById('bottom-prog-fill').style.width = pct + '%';
+  document.getElementById('bottom-count').textContent = `${answered.size}/50`;
+}
+
+function resetProgress() {
+  if (!confirm('Resetar todo o progresso?')) return;
+  answered.clear();
+  localStorage.removeItem(STORAGE_KEY);
+  renderQuestions();
+  updateAllProgress();
+}
+
+renderFilters();
+renderQuestions();
+updateAllProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan Amado Cardoso — Desenvolvedor Full-stack Sênior</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #1A56A0;
+    --blue-light: #e8f0fb;
+    --dark: #111827;
+    --gray: #6B7280;
+    --gray-light: #F9FAFB;
+    --border: #E5E7EB;
+    --white: #ffffff;
+    --max: 780px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F3F4F6;
+    color: var(--dark);
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+    gap: 12px;
+  }
+  .toolbar-left {
+    font-size: 13px;
+    color: var(--gray);
+    font-family: 'DM Mono', monospace;
+  }
+  .toolbar-left span { color: var(--blue); font-weight: 500; }
+  .toolbar-right { display: flex; gap: 10px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+  }
+  .btn-primary:hover { background: #1446884; filter: brightness(1.1); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--gray);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--gray-light); color: var(--dark); }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* ── PAGE ── */
+  .page-wrap {
+    padding-top: 72px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+  }
+
+  .resume {
+    max-width: var(--max);
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HEADER ── */
+  .resume-header {
+    padding: 28px 48px 22px;
+    border-bottom: 2px solid var(--blue);
+  }
+
+  .resume-name {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    color: var(--dark);
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .resume-title {
+    font-size: 13.5px;
+    color: var(--blue);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .resume-contact a {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .resume-contact a:hover { text-decoration: underline; }
+  .contact-item { display: flex; align-items: center; gap: 5px; }
+  .contact-icon { opacity: 0.6; font-size: 12px; }
+
+  /* ── BODY ── */
+  .resume-body { padding: 0 48px 32px; }
+
+  /* ── SECTION ── */
+  .section { margin-top: 18px; }
+
+  .section-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--blue);
+    padding-bottom: 5px;
+    border-bottom: 1.5px solid var(--blue);
+    margin-bottom: 10px;
+  }
+
+  /* ── RESUMO ── */
+  .summary {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    gap: 3px;
+  }
+  .skill-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 10px;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .skill-label {
+    font-weight: 600;
+    color: var(--dark);
+    padding-top: 1px;
+  }
+  .skill-value { color: #374151; }
+
+  /* ── JOB ── */
+  .job { margin-bottom: 14px; }
+  .job:last-child { margin-bottom: 0; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 3px;
+  }
+  .job-title-wrap { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .job-title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .job-company {
+    font-size: 13px;
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .job-period {
+    font-size: 11.5px;
+    color: var(--gray);
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .job-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 6px;
+  }
+  .job-bullets li {
+    font-size: 12.5px;
+    color: #374151;
+    line-height: 1.45;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 3px;
+  }
+  .job-bullets li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 16px;
+    top: -1px;
+  }
+  .job-bullets li strong { color: var(--dark); }
+
+  .job-stack {
+    font-size: 12px;
+    color: var(--gray);
+    font-family: 'DM Mono', monospace;
+    margin-top: 4px;
+  }
+  .job-stack span { color: var(--blue); font-weight: 500; }
+
+  /* ── EDUCATION ── */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .edu-degree { font-size: 14.5px; font-weight: 600; color: var(--dark); }
+  .edu-school { font-size: 13.5px; color: var(--gray); margin-top: 2px; }
+  .edu-period { font-size: 12.5px; color: var(--gray); font-family: 'DM Mono', monospace; white-space: nowrap; }
+
+  /* ── COMPLEMENTAR ── */
+  .comp-item {
+    font-size: 13.5px;
+    color: #374151;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .comp-item::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--blue);
+    font-weight: 700;
+    font-size: 16px;
+    top: -1px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 12px; line-height: 1.4; }
+    .toolbar { display: none; }
+    .page-wrap { padding-top: 0; }
+    .resume {
+      max-width: 100%;
+      box-shadow: none;
+      border-radius: 0;
+      animation: none;
+    }
+    .resume-header { padding: 20px 32px 16px; }
+    .resume-body { padding: 0 32px 24px; }
+    .section { margin-top: 14px; }
+    .job { margin-bottom: 10px; page-break-inside: avoid; }
+    .section-title { margin-bottom: 8px; padding-bottom: 4px; }
+    .summary { line-height: 1.45; }
+    .skill-row { font-size: 11.5px; }
+  }
+
+  @media (max-width: 640px) {
+    .resume-header { padding: 28px 24px 22px; }
+    .resume-body { padding: 0 24px 32px; }
+    .skill-row { grid-template-columns: 1fr; gap: 2px; }
+    .job-header { flex-direction: column; gap: 2px; }
+    .edu-item { flex-direction: column; gap: 2px; }
+    .toolbar-left { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="toolbar-left">ivan-curriculo.html — <span>editável</span></div>
+  <div class="toolbar-right">
+    <button class="btn btn-ghost" onclick="window.print()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+      Imprimir / PDF
+    </button>
+    <button class="btn btn-primary" onclick="toggleEdit()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <span id="edit-label">Editar</span>
+    </button>
+  </div>
+</div>
+
+<!-- RESUME -->
+<div class="page-wrap">
+<article class="resume" id="resume">
+
+  <!-- HEADER -->
+  <header class="resume-header">
+    <h1 class="resume-name" contenteditable="false">Ivan Amado Cardoso</h1>
+    <p class="resume-title" contenteditable="false">Desenvolvedor Full-stack Sênior &nbsp;·&nbsp; Java | Quarkus | Angular | React | Cloud</p>
+    <div class="resume-contact">
+      <span class="contact-item"><span class="contact-icon">📞</span> <span contenteditable="false">+55 71 98760-5740</span></span>
+      <span class="contact-item"><span class="contact-icon">✉</span> <span contenteditable="false"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="97e7f2f6f4f2e1f6f9d7fff8e3faf6fefbb9f4f8fa">[email&#160;protected]</a></span></span>
+      <span class="contact-item"><span class="contact-icon">🔗</span> <a href="https://linkedin.com/in/ivan-amado-developer" target="_blank">linkedin.com/in/ivan-amado-developer</a></span>
+      <span class="contact-item"><span class="contact-icon">💻</span> <a href="https://github.com/peacevan" target="_blank">github.com/peacevan</a></span>
+    </div>
+  </header>
+
+  <div class="resume-body">
+
+    <!-- RESUMO -->
+    <section class="section">
+      <h2 class="section-title">Resumo Profissional</h2>
+      <p class="summary" contenteditable="false">
+        Desenvolvedor Full-stack Sênior com 15+ anos de experiência em sistemas web de alta complexidade.
+        Atuei em projetos críticos na Caixa Econômica Federal, Fiocruz e INEP, elevando cobertura de testes de
+        <strong>20% para 80%</strong>, reduzindo falhas em produção e desenvolvendo sistemas adotados como
+        <strong>case de sucesso nacional</strong>. Expertise em Java/Quarkus, Angular, React, PHP e Cloud (AWS/Azure).
+        Perfil orientado a qualidade, clean code e aprendizado contínuo.
+      </p>
+    </section>
+
+    <!-- COMPETÊNCIAS -->
+    <section class="section">
+      <h2 class="section-title">Competências Técnicas</h2>
+      <div class="skills-grid">
+        <div class="skill-row"><span class="skill-label">Linguagens</span><span class="skill-value" contenteditable="false">Java, PHP, JavaScript, TypeScript, Python, Golang, C#, Delphi</span></div>
+        <div class="skill-row"><span class="skill-label">Frameworks</span><span class="skill-value" contenteditable="false">Quarkus, Spring Boot, Laravel, Zend, Angular, React, Vue, Node.js, Ionic</span></div>
+        <div class="skill-row"><span class="skill-label">Banco de Dados</span><span class="skill-value" contenteditable="false">MySQL, PostgreSQL, SQL Server, Oracle, Redis</span></div>
+        <div class="skill-row"><span class="skill-label">Cloud & DevOps</span><span class="skill-value" contenteditable="false">AWS (EC2, S3, RDS, Lambda), Azure DevOps, Docker, Kubernetes, Terraform, Jenkins</span></div>
+        <div class="skill-row"><span class="skill-label">Testes</span><span class="skill-value" contenteditable="false">JUnit, Mockito, PHPUnit, Jacoco, TDD</span></div>
+        <div class="skill-row"><span class="skill-label">Arquitetura</span><span class="skill-value" contenteditable="false">Clean Architecture, DDD, Hexagonal, SOLID, Microsserviços, RabbitMQ, Event Storming</span></div>
+        <div class="skill-row"><span class="skill-label">Metodologias</span><span class="skill-value" contenteditable="false">Scrum, Kanban, CI/CD, GitFlow</span></div>
+      </div>
+    </section>
+
+    <!-- EXPERIÊNCIA -->
+    <section class="section">
+      <h2 class="section-title">Experiência Profissional</h2>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Full-stack</span>
+            <span class="job-company" contenteditable="false">Qintess · Caixa Econômica Federal</span>
+          </div>
+          <span class="job-period" contenteditable="false">Jun/2024 – Atual</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Elevei a cobertura de testes de <strong>20% para 80%</strong> em módulos críticos de crédito imobiliário, reduzindo risco de falhas em produção.</li>
+          <li contenteditable="false">Desenvolvi novas features em sistema financeiro de alto impacto com foco em qualidade e manutenibilidade.</li>
+          <li contenteditable="false">Refatorei código legado aplicando Clean Code, aumentando desempenho e legibilidade.</li>
+          <li contenteditable="false">Otimizei consultas SQL Server e mantive pipeline CI/CD em ambiente Scrum.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> Java · Quarkus · JUnit · Mockito · Jacoco · Angular · SQL Server · Azure DevOps</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Full-stack</span>
+            <span class="job-company" contenteditable="false">Grupo Ivy</span>
+          </div>
+          <span class="job-period" contenteditable="false">Dez/2023 – Abr/2024</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Transformei portal de seminovos da Toyota em responsivo, melhorando experiência mobile.</li>
+          <li contenteditable="false">Implementei cache Redis reduzindo tempo de resposta das páginas mais acessadas.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> PHP 7.0 · Phalcon · Angular 8 · MySQL · Redis</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Full-stack Sênior</span>
+            <span class="job-company" contenteditable="false">upLexis</span>
+          </div>
+          <span class="job-period" contenteditable="false">Mai/2022 – Out/2023</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Desenvolvi pipeline de mineração de dados com AWS Lambda processando grandes volumes com alta escalabilidade.</li>
+          <li contenteditable="false">Implementei testes automatizados com PHPUnit garantindo qualidade em sistema de análise jurídica.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> PHP · Laravel · PHPUnit · PostgreSQL · AWS Lambda · Docker</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Full-stack Sênior</span>
+            <span class="job-company" contenteditable="false">Basis Tecnologia · INEP</span>
+          </div>
+          <span class="job-period" contenteditable="false">Set/2022 – Mar/2023</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Atuei no SYSPAG — sistema governamental de gestão de pagamentos do INEP — desenvolvendo features em ambiente crítico.</li>
+          <li contenteditable="false">Integrei frontend Angular com backend Laravel/Oracle via SSO, garantindo segurança e rastreabilidade.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> Laravel · Oracle · Angular 9 · Node.js · TypeScript · Docker · Redis · SSO</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Analista de Sistemas</span>
+            <span class="job-company" contenteditable="false">Cast Group · SEBRAE Salvador</span>
+          </div>
+          <span class="job-period" contenteditable="false">Dez/2021 – Set/2022</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Estabilizei sistema CRM do SEBRAE Bahia corrigindo alto volume de bugs críticos que impactavam operações comerciais.</li>
+          <li contenteditable="false">Mantive sistemas em múltiplas stacks (C#, Java, PHP/Laravel, Drupal), demonstrando versatilidade técnica.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> C# · Java · PHP · Laravel · Drupal · PostgreSQL · Docker</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Web Pleno</span>
+            <span class="job-company" contenteditable="false">Life · Fiocruz Salvador</span>
+          </div>
+          <span class="job-period" contenteditable="false">Jun/2015 – Jul/2021</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Desenvolvi do zero o SGP (Sistema de Gerenciamento de Projetos de Pesquisa), cobrindo todo o ciclo de vida de projetos científicos.</li>
+          <li contenteditable="false">O SGP tornou-se <strong>case de sucesso</strong> adotado por outras regionais da Fiocruz, impactando centenas de pesquisadores no Brasil.</li>
+          <li contenteditable="false">Reduzi ruídos de comunicação e apoiei tomada de decisão estratégica institucional.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> PHP OO · Zend Framework 3 · MySQL · jQuery · GitFlow · Scrum · Kanban</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Analista de Desenvolvimento</span>
+            <span class="job-company" contenteditable="false">TOTVs Salvador</span>
+          </div>
+          <span class="job-period" contenteditable="false">Fev/2015 – Jun/2015</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Customizei módulos financeiro, compras, estoque e faturamento do ERP Protheus para clientes de médio e grande porte.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> ADVPL · ERP Protheus · BIRT Report</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Desenvolvedor Web</span>
+            <span class="job-company" contenteditable="false">Engesoftware · COGEL Salvador</span>
+          </div>
+          <span class="job-period" contenteditable="false">Set/2013 – Mar/2015</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Participei do desenvolvimento do SGO (Sistema de Gerenciamento de Obras de Salvador) e reescrita de sistema legado PHP para Zend Framework 2.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> PHP · Zend Framework 2 · CakePHP · MySQL · jQuery · Git · Delphi</p>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title-wrap">
+            <span class="job-title" contenteditable="false">Programador de Sistemas</span>
+            <span class="job-company" contenteditable="false">Epslon Informática</span>
+          </div>
+          <span class="job-period" contenteditable="false">Set/2011 – Fev/2013</span>
+        </div>
+        <ul class="job-bullets">
+          <li contenteditable="false">Atuei como programador único modernizando sistemas legados em Delphi para hotelaria e restaurantes, reduzindo drasticamente volume de bugs.</li>
+          <li contenteditable="false">Homologação de PAF, ECF, TEF e implantação de Nota Fiscal Eletrônica dentro do prazo fiscal.</li>
+        </ul>
+        <p class="job-stack"><span>Stack:</span> Delphi 5/6/7 · PHP · WordPress · Java · NFE/NFSE · PAF/ECF/TEF</p>
+      </div>
+    </section>
+
+    <!-- FORMAÇÃO -->
+    <section class="section">
+      <h2 class="section-title">Formação Acadêmica</h2>
+      <div class="edu-item">
+        <div>
+          <div class="edu-degree" contenteditable="false">Bacharel em Sistemas de Informação</div>
+          <div class="edu-school" contenteditable="false">UNIFACS — Universidade Salvador</div>
+        </div>
+        <span class="edu-period" contenteditable="false">2007 – 2012</span>
+      </div>
+    </section>
+
+    <!-- COMPLEMENTARES -->
+    <section class="section">
+      <h2 class="section-title">Formações Complementares</h2>
+      <div style="margin-top: 8px;">
+        <div class="comp-item" contenteditable="false">FullCycle: Arquitetura de Software, Event Storming, DDD, Clean Architecture, Arquitetura Hexagonal, SOLID, Docker, Kubernetes</div>
+        <div class="comp-item" contenteditable="false">School of Net: Amazon EC2, Amazon RDS</div>
+      </div>
+    </section>
+
+  </div>
+</article>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  let editMode = false;
+
+  function toggleEdit() {
+    editMode = !editMode;
+    const label = document.getElementById('edit-label');
+    const editables = document.querySelectorAll('[contenteditable]');
+
+    editables.forEach(el => {
+      el.contentEditable = editMode ? 'true' : 'false';
+      el.style.outline = editMode ? '1.5px dashed #1A56A044' : 'none';
+      el.style.borderRadius = editMode ? '3px' : '0';
+      el.style.padding = editMode ? '1px 3px' : '0';
+    });
+
+    label.textContent = editMode ? 'Salvar' : 'Editar';
+    document.querySelector('.btn-primary').style.background = editMode ? '#059669' : '#1A56A0';
+
+    if (!editMode) {
+      // salva no localStorage
+      saveToStorage();
+      showToast('Alterações salvas!');
+    }
+  }
+
+  function saveToStorage() {
+    const editables = document.querySelectorAll('[contenteditable]');
+    const data = {};
+    editables.forEach((el, i) => {
+      data[i] = el.innerHTML;
+    });
+    localStorage.setItem('curriculo-ivan', JSON.stringify(data));
+  }
+
+  function loadFromStorage() {
+    const saved = localStorage.getItem('curriculo-ivan');
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      const editables = document.querySelectorAll('[contenteditable]');
+      editables.forEach((el, i) => {
+        if (data[i] !== undefined) el.innerHTML = data[i];
+      });
+    } catch(e) {}
+  }
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #111827; color: white; padding: 10px 20px;
+      border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+      z-index: 999; animation: fadeUp 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    `;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2500);
+  }
+
+  // ao imprimir, remove outline dos editáveis
+  window.addEventListener('beforeprint', () => {
+    document.querySelectorAll('[contenteditable]').forEach(el => {
+      el.style.outline = 'none';
+      el.style.padding = '0';
+    });
+  });
+
+  window.addEventListener('afterprint', () => {
+    if (editMode) {
+      document.querySelectorAll('[contentedita
