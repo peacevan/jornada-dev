@@ -31,7 +31,7 @@ Cada projeto tem **duas fases de stack**:
 
 | # | Projeto | Descrição | Status | Repositório |
 |---|---------|-----------|--------|-------------|
-| 1 | [smartlist](./smartlist/) | Lista inteligente de supermercado com ranking de preços por região | 🟡 Em desenvolvimento | [→ ver código](#) |
+| 1 | [smartlist]([./smartlist/](https://github.com/peacevan/gerenciador-cesta-basica)) | Lista inteligente de supermercado com ranking de preços por região | 🟡 Em desenvolvimento | [→ ver código](#) |
 | 2 | [helptea](./helptea/) | Registro de evolução para crianças autistas com botão SOS | ⚪ Planejado | — |
 | 3 | [garimpeimovel](./garimpeimovel/) | Radar de imóveis da Caixa com alertas de oportunidades | ⚪ Planejado | — |
 | 4 | [english-challenge](./english-challenge/) | App para aprender inglês por desafios diários | ⚪ Planejado | — |
