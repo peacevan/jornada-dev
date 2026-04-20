@@ -1,0 +1,66 @@
+<svg width="680" height="360" viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>SmartList Fase 2 — arquitetura inicial</title>
+  <desc>Diagrama da arquitetura do backend Java na fase 2: cliente React, Spring Boot e PostgreSQL</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: system-ui, sans-serif; fill: #2C2C2A; }
+    .label-sm { font-size: 12px; }
+    .label-md { font-size: 13px; font-weight: 500; }
+    .label-muted { font-size: 12px; fill: #5F5E5A; }
+    .box-teal { fill: #E1F5EE; stroke: #0F6E56; stroke-width: 0.5; }
+    .box-blue { fill: #E6F1FB; stroke: #185FA5; stroke-width: 0.5; }
+    .box-purple { fill: #EEEDFE; stroke: #534AB7; stroke-width: 0.5; }
+    .box-gray { fill: #F1EFE8; stroke: #5F5E5A; stroke-width: 0.5; }
+    .box-dashed { fill: none; stroke: #888780; stroke-width: 0.5; stroke-dasharray: 6 4; }
+    .arr { stroke: #888780; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    .arr-teal { stroke: #1D9E75; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    .arr-blue { stroke: #378ADD; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+  </style>
+
+  <text x="340" y="26" text-anchor="middle" class="label-muted">Fase 2 — até ~500 usuários</text>
+
+  <rect x="40" y="48" width="160" height="56" rx="8" class="box-teal"/>
+  <text x="120" y="74" text-anchor="middle" class="label-md" fill="#085041">React app</text>
+  <text x="120" y="92" text-anchor="middle" class="label-muted" fill="#0F6E56">Netlify (frontend)</text>
+
+  <line x1="200" y1="76" x2="256" y2="76" class="arr-teal"/>
+  <text x="228" y="66" text-anchor="middle" class="label-muted">REST</text>
+
+  <rect x="258" y="48" width="180" height="56" rx="8" class="box-blue"/>
+  <text x="348" y="74" text-anchor="middle" class="label-md" fill="#0C447C">Spring Boot</text>
+  <text x="348" y="92" text-anchor="middle" class="label-muted" fill="#185FA5">Java 21 · porta 8080</text>
+
+  <line x1="438" y1="76" x2="494" y2="76" class="arr-blue"/>
+  <text x="466" y="66" text-anchor="middle" class="label-muted">JPA</text>
+
+  <rect x="496" y="48" width="146" height="56" rx="8" class="box-purple"/>
+  <text x="569" y="74" text-anchor="middle" class="label-md" fill="#3C3489">PostgreSQL</text>
+  <text x="569" y="92" text-anchor="middle" class="label-muted" fill="#534AB7">Produto · Preço · Local</text>
+
+  <rect x="40" y="152" width="600" height="170" rx="12" class="box-dashed"/>
+  <text x="56" y="172" class="label-muted">Spring Boot — camadas internas</text>
+
+  <rect x="60" y="184" width="150" height="56" rx="8" class="box-gray"/>
+  <text x="135" y="210" text-anchor="middle" class="label-md" fill="#444441">Controller</text>
+  <text x="135" y="228" text-anchor="middle" class="label-muted">Recebe requisições</text>
+
+  <line x1="210" y1="212" x2="248" y2="212" class="arr"/>
+
+  <rect x="250" y="184" width="150" height="56" rx="8" class="box-gray"/>
+  <text x="325" y="210" text-anchor="middle" class="label-md" fill="#444441">Service</text>
+  <text x="325" y="228" text-anchor="middle" class="label-muted">Regras de negócio</text>
+
+  <line x1="400" y1="212" x2="438" y2="212" class="arr"/>
+
+  <rect x="440" y="184" width="150" height="56" rx="8" class="box-gray"/>
+  <text x="515" y="210" text-anchor="middle" class="label-md" fill="#444441">Repository</text>
+  <text x="515" y="228" text-anchor="middle" class="label-muted">Acesso ao banco</text>
+
+  <text x="340" y="300" text-anchor="middle" class="label-muted">Gargalo: ranking de preços fica lento acima de 500 usuários</text>
+  <text x="340" y="320" text-anchor="middle" class="label-muted">Solução: adicionar cache Redis — estágio 2</text>
+</svg>
