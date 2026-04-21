@@ -27,15 +27,13 @@ A SSAIT nasce para fechar essa lacuna. Com a mesma tecnologia usada por grandes 
 
 ## Frente 1 — Projetos de Impacto Social
 
-Aplicações construídas para resolver problemas reais de comunidades em Salvador.
-
-| Projeto | Problema | Status |
-|---|---|---|
-| [SmartList](https://github.com/peacevan/smartlist) | Ranking de supermercados mais baratos por bairro — Waze de preços para famílias de baixa renda | 🟡 Em desenvolvimento |
-| [HelpTea](https://github.com/peacevan/jornada-dev/blob/main/helptea) | Registro de evolução para crianças autistas com botão SOS | ⚪ Planejado |
-| [GarimpeiMóvel](https://github.com/peacevan/jornada-dev/blob/main/garimpeimovel) | Radar de imóveis da Caixa com alertas de oportunidade | ⚪ Planejado |
-
-Cada projeto é open source, documentado e vira referência de como usar IA para resolver problemas concretos.
+| # | Projeto | Descrição | Status | Repositório |
+|---|---------|-----------|--------|-------------|
+| 1 | [smartlist]([./smartlist/](https://github.com/peacevan/gerenciador-cesta-basica)) | Lista inteligente de supermercado com ranking de preços por região | 🟡 Em desenvolvimento | [→ ver código](#) |
+| 2 | [helptea](./helptea/) | Registro de evolução para crianças autistas com botão SOS | ⚪ Planejado | — |
+| 3 | [garimpeimovel](./garimpeimovel/) | Radar de imóveis da Caixa com alertas de oportunidades | ⚪ Planejado | — |
+| 4 | [english-challenge](./english-challenge/) | App para aprender inglês por desafios diários | ⚪ Planejado | — |
+| 5 | [less-procrastination](./less-procrastination/) | Ferramenta anti-procrastinação com micro-sprints | ⚪ Planejado | — |
 
 ---
 
